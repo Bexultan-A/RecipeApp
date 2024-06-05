@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:reciepe_app/components/custom_clip_path.dart';
+import 'package:reciepe_app/constants/show_detail_dialog.dart';
+import 'package:reciepe_app/constants/start_cooking.dart';
 
 import '../components/circle_button.dart';
 import '../components/ingredient_list.dart';
 
 class DetailScreen extends StatefulWidget {
-  final Map<String,dynamic> item;
+  final Map<dynamic,dynamic> item;
   const DetailScreen({super.key, required this.item});
 
   @override
@@ -16,6 +20,7 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
+    var myBox = Hive.box('saved');
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     int quantityItems = widget.item["ingredients"].length;
@@ -54,12 +59,53 @@ class _DetailScreenState extends State<DetailScreen> {
                   Text("$time min"),
                   SizedBox(height: h*.01,),
         
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CircleButton(icon: Icons.share, label: 'Share',),
-                      CircleButton(icon: Icons.bookmark_border, label: 'Save',),
-                      CircleButton(icon: Icons.monitor_heart_outlined, label: 'Calories',), 
+                      GestureDetector(
+                        child: const CircleButton(icon: Icons.share, label: 'Share',)
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: myBox.listenable(), 
+                        builder: (context, box, _) {
+                          String key = widget.item['label'];
+                          bool saved=myBox.containsKey(key);
+                          if(saved) {
+                            return GestureDetector(
+                              onTap: () {
+                                myBox.delete(key);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    duration: Duration(seconds: 1),
+                                    content: Text('Recipe deleted')
+                                  )
+                                );
+                              },
+                              child: const CircleButton(icon: Icons.bookmark, label: 'Saved',)
+                            );
+                          }
+                          else {
+                            return GestureDetector(
+                              onTap: () {
+                                myBox.put(key, widget.item);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    duration: Duration(seconds: 1),
+                                    content: Text('Recipe saved successfully')
+                                  )
+                                );
+                              },
+                              child: const CircleButton(icon: Icons.bookmark_border, label: 'Save',)
+                            );
+                          }
+                        }
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          ShowDialog.showCallories(widget.item['totalNutrients'], context);
+                        },
+                        child: const CircleButton(icon: Icons.monitor_heart_outlined, label: 'Calories',)
+                      ), 
                     ],
                   ),
                   SizedBox(height: h*.02,),
@@ -68,7 +114,9 @@ class _DetailScreenState extends State<DetailScreen> {
                     children: [
                       Text('Direction', style: TextStyle(fontWeight: FontWeight.bold, fontSize: w*.06),),
                       SizedBox(width: w*.34,
-                      child: ElevatedButton(onPressed: (){},
+                      child: ElevatedButton(onPressed: (){
+                        StartCooking.startCooking(widget.item['url']);
+                      },
                         child: Text('Start'),),),                    
                     ],
                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reciepe_app/components/bottom_nav_bar.dart';
 import 'package:reciepe_app/views/home_screen.dart';
+import 'package:reciepe_app/views/recipe_category.dart';
+import 'package:reciepe_app/views/saved_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -49,9 +51,8 @@ class _HomeState extends State<Home> {
         physics: const NeverScrollableScrollPhysics(),
         children: const[
           HomePage(),
-          Center(child: Text('Page 2'),),
-          Center(child: Text('Page 3'),),
-          Center(child: Text('Page 4'),),
+          RecipeCategory(),
+          SavedScreen(),
         ],
       ),
     );

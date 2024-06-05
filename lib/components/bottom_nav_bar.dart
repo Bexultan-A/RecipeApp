@@ -36,12 +36,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
             iconSize: 30,
             textSize: 18,
-            padding: EdgeInsets.symmetric(horizontal: w*.01, vertical: h*.01),
+            padding: EdgeInsets.symmetric(horizontal: w*.07, vertical: h*.01),
             tabs: const[
               GButton(icon: CupertinoIcons.home, text: 'Home',),
               GButton(icon: Icons.category, text: 'Categories',),
               GButton(icon: CupertinoIcons.heart_fill, text: 'Saved',),
-              GButton(icon: CupertinoIcons.person, text: 'Profile',)
             ],
             onTabChange: widget.onTap,
             selectedIndex: 0,

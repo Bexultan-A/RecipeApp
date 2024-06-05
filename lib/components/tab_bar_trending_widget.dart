@@ -3,78 +3,14 @@ import 'package:reciepe_app/constants/constant_function.dart';
 
 import '../views/detail_screen.dart';
 
-class TabBarWidget extends StatelessWidget {
-  const TabBarWidget({super.key});
+class TabBarTrendingWidget extends StatelessWidget {
+  const TabBarTrendingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
-    return DefaultTabController(
-      length: 4, child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            color: Colors.white,
-            height: h*.05,
-            child: TabBar(
-              unselectedLabelColor: Colors.grey,
-              labelColor: Colors.white,
-              dividerColor: Colors.white,
-              indicator: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              labelPadding: EdgeInsets.symmetric(horizontal: w*.012),
-              tabs: const [
-                TabItem(title: 'Breakfast'),
-                TabItem(title: 'Lunch'),
-                TabItem(title: 'Dinner'),
-                TabItem(title: 'Quick')
-              ],
-            ),
-          ),
-          SizedBox(height: h*.02,),
-          
-          SizedBox(
-            height: h*.3,
-            child: const TabBarView(
-              children: [
-                HomeTabBarView(recipe: 'Breakfast'),
-                HomeTabBarView(recipe: 'Lunch'),
-                HomeTabBarView(recipe: 'Dinner'),
-                HomeTabBarView(recipe: 'Quick')
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class TabItem extends StatelessWidget {
-  final String title;
-  const TabItem({super.key,required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.redAccent,
-        ),
-        borderRadius: BorderRadius.circular(20)
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Center(
-          child: Text(title, style: const TextStyle(
-            fontSize: 9.8
-          ),),
-        ),
-      ),
-    );
+    return HomeTabBarView(recipe: 'trending');
   }
 }
 
@@ -97,7 +33,7 @@ class HomeTabBarView extends StatelessWidget {
           );
         }
         return SizedBox(
-          height: h*.28,
+          height: h*.38,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -108,7 +44,7 @@ class HomeTabBarView extends StatelessWidget {
                 margin: EdgeInsets.only(
                   right: w*.02
                 ),
-                width: w*.5,
+                width: w*.8,
                 child: Stack(
                   children: [
                     Column(
@@ -122,7 +58,7 @@ class HomeTabBarView extends StatelessWidget {
                           },
                           child: Container(
                             width: w,
-                            height: h*.17,
+                            height: h*.27,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               image: DecorationImage(image: NetworkImage(snap['image']),

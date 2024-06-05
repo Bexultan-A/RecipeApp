@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reciepe_app/components/tab_bar_trending_widget.dart';
 
 import '../components/home_app_bar.dart';
 import '../components/tab_bar_widget.dart';
@@ -31,16 +32,27 @@ class HomePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Categories', style: TextStyle(
+                  Text('Trending🔥', style: TextStyle(
+                    fontSize: w*.07,
+                    fontWeight: FontWeight.bold
+                  ),),
+                ],
+              ),
+              SizedBox(
+                height: h*.022,
+              ),
+              const TabBarTrendingWidget(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Popular categories', style: TextStyle(
                     fontSize: w*.045,
                     fontWeight: FontWeight.bold
                   ),),
-                  const Text('see all'),
-                  SizedBox(height: h*.022,),
                 ],
               ),
               SizedBox(height: h*.022,),
-              const TabBarWidget()
+              const TabBarWidget(),
             ],
           ),
         ),
